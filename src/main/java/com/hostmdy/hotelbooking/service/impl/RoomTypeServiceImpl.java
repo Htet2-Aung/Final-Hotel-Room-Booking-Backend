@@ -40,15 +40,32 @@ public class RoomTypeServiceImpl implements RoomTypeService{
 	@Override
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
-		roomTypeRepository.deleteById(id);
+		try {
+			roomTypeRepository.deleteById(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Cannot be deleted by entity");
+		}
+		
 	}
 
 	@Override
 	public RoomType updateRoomType(RoomType roomType) {
 		// TODO Auto-generated method stub
+		RoomType oldroomType= roomTypeRepository.findById(roomType.getId()).get();
+		System.out.println("oldRoomType: "+oldroomType);
 		
-				
+		if(oldroomType != null) {
+			oldroomType.setName(roomType.getName());
+			oldroomType.setDescription(roomType.getDescription());
+			oldroomType.setPrice(roomType.getPrice());
+			oldroomType.setFacilities(roomType.getFacilities());
+		
+			return roomTypeRepository.save(oldroomType);
+		}
 		return roomTypeRepository.save(roomType);
+				
+		
 	}
 
 

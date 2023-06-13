@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.hostmdy.hotelbooking.domain.RoomType;
 import com.hostmdy.hotelbooking.service.MapValidationErrorService;
 import com.hostmdy.hotelbooking.service.RoomTypeService;
@@ -31,7 +32,7 @@ public class RoomTypeController {
 	private final MapValidationErrorService mapErrorService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createRoomType(@RequestBody RoomType roomType, BindingResult result) {
+	public ResponseEntity<?> createRoomType(@RequestBody RoomType roomType,BindingResult result) {
 		ResponseEntity<?> responseErrorObject = mapErrorService.validate(result);
 		
 		if(responseErrorObject != null)
@@ -68,6 +69,9 @@ public class RoomTypeController {
 	public ResponseEntity<String> deleteRoomTypeById(@PathVariable Long id){
 		roomTypeService.deleteById(id);
 		
+		if(roomTypeService.findById(id) != null)
+		return new ResponseEntity<String>("Can't delete",HttpStatus.NOT_FOUND);
+		
 		return new ResponseEntity<String>("Id:"+id+" is deleted!",HttpStatus.OK);
 	}
 	
@@ -75,11 +79,19 @@ public class RoomTypeController {
 	public ResponseEntity<?> updateRoomType(@Valid @RequestBody RoomType roomType, BindingResult result){
 		ResponseEntity<?> responseError = mapErrorService.validate(result);
 		
+		System.out.println("In room update: "+ roomType.getId());
+		
 		if(responseError != null)
 			return responseError;
 		
 		RoomType updateRoomType = roomTypeService.updateRoomType(roomType);
 		
-		return new ResponseEntity<RoomType>(updateRoomType,HttpStatus.OK);
+		if(updateRoomType != null) {
+			return new ResponseEntity<RoomType>(updateRoomType,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Room type is not found",HttpStatus.NOT_FOUND);
+		}
+		
+		
 	}
 }
