@@ -75,6 +75,14 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepository.save(user);
 	}
+	
+
+	@Override
+	public User updatePassword(User user) {
+		// TODO Auto-generated method stub
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		return userRepository.save(user);
+	}
 
 	@Override
 	public List<User> findAllUser() {

@@ -5,31 +5,29 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.hostmdy.hotelbooking.domain.Booking;
 import com.hostmdy.hotelbooking.domain.Payment;
+import com.hostmdy.hotelbooking.repository.BookingRepository;
 import com.hostmdy.hotelbooking.repository.PaymentRepository;
 import com.hostmdy.hotelbooking.service.PaymentService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 	private final PaymentRepository paymentRepository;
+	private final BookingRepository bookingRepository;
 
-	public PaymentServiceImpl(PaymentRepository paymentRepository) {
-		super();
-		this.paymentRepository = paymentRepository;
-	}
 
 	
 	@Override
-	public Payment savePayment(Payment payment) {
+	public Payment savePayment(Payment payment, Booking booking) {
 		// TODO Auto-generated method stub
+		payment.setBooking(booking);
 		return paymentRepository.save(payment);
 	}
 
-	@Override
-	public Payment createPayment(Payment payment) {
-		// TODO Auto-generated method stub
-		return savePayment(payment);
-	}
 
 	@Override
 	public Optional<Payment> findById(Long id) {
@@ -67,6 +65,14 @@ public class PaymentServiceImpl implements PaymentService {
 	    return paymentRepository.save(payment);
 		
 		}
+
+
+	@Override
+	public Optional<Payment> findByBookingId(Long bookingId) {
+		// TODO Auto-generated method stub
+		Booking booking = bookingRepository.findById(bookingId).get();
+		return paymentRepository.findByBooking(booking);
+	}
 		
 	
 

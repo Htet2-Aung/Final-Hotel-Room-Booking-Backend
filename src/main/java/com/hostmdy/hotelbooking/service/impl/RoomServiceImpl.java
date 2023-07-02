@@ -1,14 +1,16 @@
 package com.hostmdy.hotelbooking.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
+import com.hostmdy.hotelbooking.domain.BookingRoom;
 import com.hostmdy.hotelbooking.domain.Room;
 import com.hostmdy.hotelbooking.domain.RoomType;
+import com.hostmdy.hotelbooking.payload.SearchRequest;
 import com.hostmdy.hotelbooking.repository.RoomRepository;
 import com.hostmdy.hotelbooking.service.RoomService;
 
@@ -39,6 +41,7 @@ public class RoomServiceImpl implements RoomService{
 		// TODO Auto-generated method stub
 		return roomRepository.findById(id);
 	}
+	
 
 	@Override
 	public void deleteById(Long id) {
@@ -48,7 +51,7 @@ public class RoomServiceImpl implements RoomService{
 		if(roomOpt.isPresent()) {
 			Room room = roomOpt.get();
 			room.setRoomType(null);
-			room.setBookingRoom(null);
+//			room.addBookingRoom(null);
 			
 			Room updateRoom = roomRepository.save(room);
 			System.out.println("Deleted"+updateRoom);
@@ -79,6 +82,21 @@ public class RoomServiceImpl implements RoomService{
 		
 		return roomRepository.save(room);
 	}
+
+
+	
+//	@Override
+//	public List<Room> searchBySearchRequest(SearchRequest request) {
+//		// TODO Auto-generated method stub
+//		List<Room> roomList = (List<Room>) roomRepository.findAll();
+//		
+//		List<Room> filteredRooms = roomList.stream()
+//				.map(room -> room.getBookingRoom())
+//				.filter(bkRoomList -> bkRoomList.stream().)
+//				
+//		
+//		return ;
+//	}
 
 	
 

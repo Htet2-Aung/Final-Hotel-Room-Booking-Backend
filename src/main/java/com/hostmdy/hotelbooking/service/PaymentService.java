@@ -5,6 +5,7 @@ package com.hostmdy.hotelbooking.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.hostmdy.hotelbooking.domain.Booking;
 import com.hostmdy.hotelbooking.domain.Payment;
 
 
@@ -15,9 +16,9 @@ public interface PaymentService {
 
 	Optional<Payment> findById(Long id);
 	
-	Payment savePayment(Payment payment);
+	Payment savePayment(Payment payment, Booking booking);
 	
-	Payment createPayment(Payment payment);
+	Optional<Payment> findByBookingId(Long bookingId);
 	
 	void deleteById(Long id);
 	

@@ -21,5 +21,7 @@ public interface UserService {
 	
 	User updateUser(User user);
 	
+	User updatePassword(User user);
+	
 	List<User> findAllUser();
 }

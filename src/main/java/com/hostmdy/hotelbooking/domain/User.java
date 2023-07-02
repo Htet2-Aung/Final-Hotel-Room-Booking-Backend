@@ -3,6 +3,7 @@ package com.hostmdy.hotelbooking.domain;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -21,13 +22,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 
 import lombok.Getter;
@@ -39,9 +40,6 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
-	
-	
-	
 	
 
 	/**
@@ -70,12 +68,18 @@ public class User implements UserDetails {
 	@NotBlank(message = "password is required")
 	private String password;
 	
+	@Transient
+	private String confirmPassword;
+	
 	private LocalDate createdAt;
 	private LocalDate updatedAt;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<UserRoles> userRoles = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Booking> booking;
 	
 	@PrePersist
 	public void onCreate() {

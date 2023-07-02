@@ -128,6 +128,14 @@ public class UserController {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 
 	}
+	
+	@PutMapping("/updatePassword")
+	public ResponseEntity<User> updatePassword(@RequestBody User user) {
+
+		return new ResponseEntity<User>(userService.updatePassword(user), HttpStatus.OK);
+		 
+	}
+
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteUserById(@PathVariable Long id) {

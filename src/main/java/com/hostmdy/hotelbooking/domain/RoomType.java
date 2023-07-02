@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,9 +29,15 @@ public class RoomType {
 	@NotBlank(message = "room type name is required")
 	private String name;
 	
+	@Lob
+	@Column(columnDefinition = "Text")
 	@NotBlank(message = "room type description is required")
 	private String description;
 	private Double price;
+	
+	@Lob
+	@Column(columnDefinition = "Text")
+	private String image;
 	
 	@Lob
 	@Column(columnDefinition = "Text")
